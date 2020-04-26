@@ -1,10 +1,21 @@
 FROM ubuntu
-MAINTAINER Rohit Sehgal (rsehgal@iitk.ac.in)
 
-RUN apt-get update -y && apt-get install python2.7 -y
+MAINTAINER T.J. but forked from Rohit Sehgal (rsehgal@iitk.ac.in)
+
 RUN apt-get update
-RUN apt-get install python tcpdump python-pip -y
+RUN apt-get install software-properties-common -y
+RUN apt-add-repository universe -y
+
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python \
+    tcpdump \
+    apt-utils 
+
+
 RUN apt-get install aptitude -y
+RUN apt-get install python3-pip -y
+
 
 RUN mkdir -p /home/smb
 
@@ -19,7 +30,7 @@ COPY startup_scripts.sh /home/smb/startup_scripts.sh
 RUN chmod 754 /home/smb/startup_scripts.sh
 
 COPY requirements.txt /home/smb/requirements.txt
-RUN pip install -r /home/smb/requirements.txt
+RUN pip3 install -r /home/smb/requirements.txt
 
 EXPOSE 445 139
 
